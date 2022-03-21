@@ -30,6 +30,28 @@ import time
 
 #########################################################
 #                   Your Code Goes Below                #
+def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0):
+  myturtle.up()
+  myturtle.goto(top_left_x, top_left_y)
+  myturtle.down()
+  for i in range(1,5):
+    myturtle.forward(2)
+    myturtle.right(90)
+
+def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
+  myturtle.up()
+  myturtle.goto(x_start,0)
+  myturtle.down()
+  myturtle.goto(x_end,0)
+  myturtle.up()
+  myturtle.goto(0,y_start)
+  myturtle.down()
+  myturtle.goto(0,y_end)
+  myturtle.up()
+
+def drawCircle(myturtle=None, radius=0):
+  myturtle.up()
+  myturtle.goto(radius,0)
 #########################################################
 
 
