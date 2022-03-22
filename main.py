@@ -51,9 +51,15 @@ def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
 
 def drawCircle(myturtle=None, radius=0):
   myturtle.up()
-  myturtle.goto(radius,0)
+  myturtle.goto(0,-1*radius)
+  myturtle.down()
+  myturtle.circle(radius)
 #########################################################
-
+def setUpDartboard(myscreen=None, myturtle=None):
+  myscreen.setworldcoordinates(-3,-3,3,3)
+  drawLine(myturtle=myturtle, x_start=-3, y_start=-3, x_end=3, y_end=3)
+  drawSquare(myturtle=myturtle, width=1, top_left_x=-1, top_left_y=1)
+  drawCircle(myturtle=myturtle, radius=1)
 
 
 #########################################################
