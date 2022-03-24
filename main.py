@@ -31,6 +31,7 @@ import time
 #########################################################
 #                   Your Code Goes Below                #
 def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0):
+  myturtle.color('black')
   myturtle.up()
   myturtle.goto(top_left_x, top_left_y)
   myturtle.down()
@@ -39,6 +40,7 @@ def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0):
     myturtle.right(90)
 
 def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
+  myturtle.color('black')
   myturtle.up()
   myturtle.goto(x_start,0)
   myturtle.down()
@@ -50,17 +52,67 @@ def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
   myturtle.up()
 
 def drawCircle(myturtle=None, radius=0):
+  myturtle.color('black')
   myturtle.up()
   myturtle.goto(0,-1*radius)
   myturtle.down()
   myturtle.circle(radius)
-#########################################################
+
 def setUpDartboard(myscreen=None, myturtle=None):
-  myscreen.setworldcoordinates(-3,-3,3,3)
-  drawLine(myturtle=myturtle, x_start=-3, y_start=-3, x_end=3, y_end=3)
+  myscreen.setworldcoordinates(-2,-2,2,2)
+  drawLine(myturtle=myturtle, x_start=-2, y_start=-2, x_end=2, y_end=2)
   drawSquare(myturtle=myturtle, width=1, top_left_x=-1, top_left_y=1)
   drawCircle(myturtle=myturtle, radius=1)
 
+def isInCircle(myturtle=None, circle_center_x=0, circle_center_y=0, radius=0):
+  dist_from_bullseye = myturtle.distance(circle_center_x, circle_center_y)
+  boolean = dist_from_bullseye <= radius
+  if boolean:
+    myturtle.color('green')
+  else:
+    myturtle.color('red')
+  myturtle.dot()
+  return boolean
+
+def throwDart(myturtle=None):
+  x_rand = random.uniform(-1,1)
+  y_rand = random.uniform(-1,1)
+  myturtle.up()
+  myturtle.goto(x_rand,y_rand) 
+  myturtle.dot()
+  myturtle.up()
+
+#########################################################
+
+def playDarts(myturtle=None):
+  score_player_a = 0
+  score_player_b = 0
+  for i in range(1,11):
+    throwDart(myturtle=myturtle)
+    point_player_a = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    if point_player_a:
+      score_player_a += 1
+    throwDart(myturtle=myturtle)
+    point_player_b = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    if point_player_b:
+      score_player_b += 1
+  print("Player A scored", score_player_a, "points, and Player B scored", score_player_b, "points.")
+  if score_player_a > score_player_b:
+    print("Player A wins!")
+  elif score_player_a == score_player_b:
+    print("It's a tie!")
+  else:
+    print("Player B wins!")
+
+def montePi(myturtle=None, num_darts=0):
+  inside_count = 0
+  for i in range(0, num_darts):
+    throwDart(myturtle=myturtle)
+    hit = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    if hit:
+      inside_count += 1
+  pi_approx = (inside_count/num_darts)*4
+  return pi_approx
 
 #########################################################
 #         Do not alter any code below here              #
