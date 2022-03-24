@@ -8,18 +8,18 @@
 _Replace anything surrounded by the `< >` symbols._
 
 ## SUMMARY:
- < Provide a short description of your program's functionality. No more than a couple sentences. >
+My program creates a "dartboard" (2x2 square, circle with radius 1 inside square, axis lines), and then throws darts randomly within the square. A game of 10 dart throws alternating between 2 players is played and then the winner is announced, their points counted for every dart that hits the circle. Then a function estimates pi by multiplying the proportion of "scores" from an arbitrary number of dart throws by 4.
 
 ## GRACE DAYS
-Grace days used for this assignment: < # >
+Grace days used for this assignment: 0
 
-Grace days remaining: < # >/5
+Grace days remaining: 1/5
 
 ## KNOWN BUGS AND INCOMPLETE PARTS:
- < What parts of the project you were not able to complete >
+None
 
 ## REFERENCES:
- < List any outside resources used >
+https://www.geeksforgeeks.org/turtle-dot-function-in-python/
 
 ## MISCELLANEOUS COMMENTS:
- < Anything you would like the grader to know >
+Fun lab!
