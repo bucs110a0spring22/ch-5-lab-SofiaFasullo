@@ -31,26 +31,30 @@ Functions you must implement:
 
 #########################################################
 #                   Your Code Goes Below                #
-def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0, square_side_length=0):
-  myturtle.color('black')
-  myturtle.up()
-  myturtle.goto(top_left_x, top_left_y)
+def drawAnything(myturtle=None,x=0,y=0):
+  myturtle.color('black') #resets default color
   myturtle.down()
+  myturtle.goto(x,y)
+  myturtle.up()
+
+def moveTurtle(myturtle=None, x=0, y=0):
+  myturtle.color('black') #resets default color
+  myturtle.up()
+  myturtle.goto(x,y)
+  myturtle.down()
+  #drawAnything and moveTurtle function added to make code more dry
+
+def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0, square_side_length=0):
+  moveTurtle(myturtle=myturtle, x=top_left_x, y=top_left_y)
   for i in range(1,5):
     myturtle.forward(square_side_length)
     myturtle.right(90)
 
 def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
-  myturtle.color('black')
-  myturtle.up()
-  myturtle.goto(x_start,0)
-  myturtle.down()
-  myturtle.goto(x_end,0)
-  myturtle.up()
-  myturtle.goto(0,y_start)
-  myturtle.down()
-  myturtle.goto(0,y_end)
-  myturtle.up()
+  moveTurtle(myturtle=myturtle, x=x_start, y=0)
+  drawAnything(myturtle=myturtle, x=x_end, y=0)
+  moveTurtle(myturtle=myturtle, x=0, y=y_start)
+  drawAnything(myturtle=myturtle, x=0, y=y_end)
 
 def drawCircle(myturtle=None, radius=0):
   myturtle.color('black')
@@ -58,7 +62,7 @@ def drawCircle(myturtle=None, radius=0):
   myturtle.goto(0,-1*radius)
   myturtle.down()
   myturtle.speed(0) #otherwise it takes so long
-  myturtle.circle(radius, steps=360) ##added by TA
+  myturtle.circle(radius, steps=360) ##steps arg added by TA
 
 def setUpDartboard(myscreen=None, myturtle=None, dartboard_length=0):
   myscreen.setworldcoordinates(-dartboard_length,-dartboard_length,dartboard_length,dartboard_length)
@@ -105,6 +109,7 @@ def playDarts(myturtle=None, dartboard_length=0):
     print("It's a tie!")
   else:
     print("Player B wins!")
+    #this function is more than 10 lines because there is a complex game between 2 players occuring
 
 def montePi(myturtle=None, num_darts=0):
   inside_count = 0
