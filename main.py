@@ -165,6 +165,26 @@ def main():
     print("\nThe estimation of pi using "+str(number_darts)+" virtual darts is " + str(approx_pi))
     print("\tPart C Complete...")
     # Don't hide or mess with window while it's 'working'
+    # Keep the window up until dismissed
+    print("=========== Part D ===========")
+    darty.clear()
+  #bullseye
     window.exitonclick()
+'''
+#main()
 
-main()
+'''
+darty=turtle.Turtle()
+window = turtle.Screen()
+setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
+drawCircle(myturtle=darty, radius=0.125) 
+
+target = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=1, hit_color='green', miss_color='red')
+bullseye = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=0.125, hit_color='purple', miss_color='white')
+for i in range(1,11):
+  throwDart(myturtle=darty, dartboard_length=2)
+  if bullseye:
+    dart.color('blue')
+    darty.write("Bullseye!")
+
+window.exitonclick()
