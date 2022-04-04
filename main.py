@@ -1,3 +1,7 @@
+import turtle
+import random
+import time
+
 '''
 Estimates pi using Monte Carlo simulation
 
@@ -15,28 +19,25 @@ Output to monitor:
 Output to window:
   colored dots that simulate unit circle on 2x2 square
 Functions you must implement:
-  drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0) - to outline dartboard
+  drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0, square_side_length=0) - to outline dartboard
   drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0) - to draw axes
   drawCircle(myturtle=None, radius=0) - to draw the circle
   setUpDartboard(myscreen=None, myturtle=None) - to set up the board using the above functions
-  isInCircle(myturtle=None, circle_center_x=0, circle_center_y=0, radius=0) - determine if dot is in circle
-  throwDart(myturtle=None)
-  playDarts(myturtle=None) - a simulated game of darts between two players
+  isInCircle(myturtle=None, circle_center_x=0, circle_center_y=0, radius=0, hit_color=None, miss_color=None) - determine if dot is in circle
+  throwDart(myturtle=None, dartboard_length=0)
+  playDarts(myturtle=None, dartboard_length=0) - a simulated game of darts between two players
   montePi(myturtle=None, num_darts=0) - simulation algorithm returns the approximation of pi
 '''
-import turtle
-import random
-import time
 
 #########################################################
 #                   Your Code Goes Below                #
-def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0):
+def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0, square_side_length=0):
   myturtle.color('black')
   myturtle.up()
   myturtle.goto(top_left_x, top_left_y)
   myturtle.down()
   for i in range(1,5):
-    myturtle.forward(2)
+    myturtle.forward(square_side_length)
     myturtle.right(90)
 
 def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
@@ -56,27 +57,28 @@ def drawCircle(myturtle=None, radius=0):
   myturtle.up()
   myturtle.goto(0,-1*radius)
   myturtle.down()
-  myturtle.circle(radius)
+  myturtle.speed(0) #otherwise it takes so long
+  myturtle.circle(radius, steps=360) ##added by TA
 
-def setUpDartboard(myscreen=None, myturtle=None):
-  myscreen.setworldcoordinates(-2,-2,2,2)
-  drawLine(myturtle=myturtle, x_start=-2, y_start=-2, x_end=2, y_end=2)
-  drawSquare(myturtle=myturtle, width=1, top_left_x=-1, top_left_y=1)
+def setUpDartboard(myscreen=None, myturtle=None, dartboard_length=0):
+  myscreen.setworldcoordinates(-dartboard_length,-dartboard_length,dartboard_length,dartboard_length)
+  drawLine(myturtle=myturtle, x_start=-dartboard_length, y_start=-dartboard_length, x_end=dartboard_length, y_end=dartboard_length)
+  drawSquare(myturtle=myturtle, width=1, top_left_x=-dartboard_length/2, top_left_y=dartboard_length/2, square_side_length=dartboard_length) #since the dartboard is centered at the origin, top_left_x and top_left_y arguments are half dartboard length
   drawCircle(myturtle=myturtle, radius=1)
 
-def isInCircle(myturtle=None, circle_center_x=0, circle_center_y=0, radius=0):
+def isInCircle(myturtle=None, circle_center_x=0, circle_center_y=0, radius=0, hit_color=None, miss_color=None):
   dist_from_bullseye = myturtle.distance(circle_center_x, circle_center_y)
   boolean = dist_from_bullseye <= radius
   if boolean:
-    myturtle.color('green')
+    myturtle.color(hit_color)
   else:
-    myturtle.color('red')
+    myturtle.color(miss_color)
   myturtle.dot()
   return boolean
 
-def throwDart(myturtle=None):
-  x_rand = random.uniform(-1,1)
-  y_rand = random.uniform(-1,1)
+def throwDart(myturtle=None, dartboard_length=0):
+  x_rand = random.uniform(-dartboard_length/2,dartboard_length/2)
+  y_rand = random.uniform(-dartboard_length/2,dartboard_length/2)
   myturtle.up()
   myturtle.goto(x_rand,y_rand) 
   myturtle.dot()
@@ -84,16 +86,16 @@ def throwDart(myturtle=None):
 
 #########################################################
 
-def playDarts(myturtle=None):
+def playDarts(myturtle=None, dartboard_length=0):
   score_player_a = 0
   score_player_b = 0
   for i in range(1,11):
-    throwDart(myturtle=myturtle)
-    point_player_a = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    throwDart(myturtle=myturtle, dartboard_length=dartboard_length)
+    point_player_a = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1, hit_color='green', miss_color='red')
     if point_player_a:
       score_player_a += 1
-    throwDart(myturtle=myturtle)
-    point_player_b = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    throwDart(myturtle=myturtle, dartboard_length=dartboard_length)
+    point_player_b = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1, hit_color='green', miss_color='red')
     if point_player_b:
       score_player_b += 1
   print("Player A scored", score_player_a, "points, and Player B scored", score_player_b, "points.")
@@ -107,8 +109,8 @@ def playDarts(myturtle=None):
 def montePi(myturtle=None, num_darts=0):
   inside_count = 0
   for i in range(0, num_darts):
-    throwDart(myturtle=myturtle)
-    hit = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1)
+    throwDart(myturtle=myturtle, dartboard_length=2)
+    hit = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1, hit_color='green', miss_color='red')
     if hit:
       inside_count += 1
   pi_approx = (inside_count/num_darts)*4
@@ -131,21 +133,21 @@ def main():
     window = turtle.Screen()
     darty = turtle.Turtle()
     darty.speed(0) # as fast as it will go!
-    setUpDartboard(window, darty)
+    setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
 
     # Loop for 10 darts to test your code
     for i in range(10):
-        throwDart(darty)
+        throwDart(myturtle=darty, dartboard_length=2)
     print("\tPart A Complete...")
     print("=========== Part B ===========")
     darty.clear()
-    setUpDartboard(window, darty)
-    playDarts(darty)
+    setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
+    playDarts(myturtle=darty, dartboard_length=2)
     print("\tPart B Complete...")
     # Keep the window up until dismissed
     print("=========== Part C ===========")
     darty.clear()
-    setUpDartboard(window, darty)
+    setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
     
     # Includes the following code in order to update animation periodically
     # instead of for each throw (saves LOTS of time):
