@@ -179,12 +179,15 @@ window = turtle.Screen()
 setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
 drawCircle(myturtle=darty, radius=0.125) 
 
-target = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=1, hit_color='green', miss_color='red')
-bullseye = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=0.125, hit_color='purple', miss_color='white')
-for i in range(1,11):
-  throwDart(myturtle=darty, dartboard_length=2)
-  if bullseye:
-    dart.color('blue')
-    darty.write("Bullseye!")
+
+
+bullseye = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=0.25, hit_color='blue', miss_color='red')
+num_tries = 1
+while bullseye == False:
+  throwDart(myturtle=darty, dartboard_length=2)  
+  num_tries += 1
+darty.color('blue')
+darty.write("Bullseye!")
+print(num_tries)
 
 window.exitonclick()
