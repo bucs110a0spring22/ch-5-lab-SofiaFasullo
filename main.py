@@ -121,6 +121,19 @@ def montePi(myturtle=None, num_darts=0):
   pi_approx = (inside_count/num_darts)*4
   return pi_approx
 
+# new function testing aim and seeing how many tries it takes to hit the bullseye!
+def test_aim(myturtle=None, myscreen=None, bullseye_radius=0):
+  setUpDartboard(myscreen=myscreen, myturtle=myturtle, dartboard_length=2)
+  drawCircle(myturtle=myturtle, radius=bullseye_radius) 
+  bullseye = isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=bullseye_radius, hit_color='blue', miss_color='red')
+  num_tries = 1
+  while bullseye == False:
+    throwDart(myturtle=myturtle, dartboard_length=2)
+    num_tries += 1
+  darty.color('blue')
+  darty.write("Bullseye!")
+  return(num_tries)
+
 #########################################################
 #         Do not alter any code below here              #
 #       Your code must work with the main proivided     #
@@ -169,25 +182,8 @@ def main():
     print("=========== Part D ===========")
     darty.clear()
   #bullseye
+    practice_aim = test_aim(myturtle=darty, myscreen=window, bullseye_radius=1)
+    print("It took me", practice_aim, "tries to hit the bullseye")
     window.exitonclick()
-'''
-#main()
 
-'''
-darty=turtle.Turtle()
-window = turtle.Screen()
-setUpDartboard(myscreen=window, myturtle=darty, dartboard_length=2)
-drawCircle(myturtle=darty, radius=0.125) 
-
-
-
-bullseye = isInCircle(myturtle=darty, circle_center_x=0, circle_center_y=0, radius=0.25, hit_color='blue', miss_color='red')
-num_tries = 1
-while bullseye == False:
-  throwDart(myturtle=darty, dartboard_length=2)  
-  num_tries += 1
-darty.color('blue')
-darty.write("Bullseye!")
-print(num_tries)
-
-window.exitonclick()
+main()
